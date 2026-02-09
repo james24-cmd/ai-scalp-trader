@@ -28,15 +28,22 @@ Provide the analysis in this exact summary format:
 
 ## 🚨 TRADE SIGNAL: [LONG / SHORT / NO TRADE]
 
-### 📉 Trade Setup
+### 📉 Trade Setup (Immediate)
 *   **Entry**: [Price]
 *   **Stop Loss**: [Price] ❌
 *   **Take Profit**: [Price] ✅
 
-### 💰 Risk Management (Small Account)
+### ⏳ Limit Order Setup (Best Price)
+*   **Entry Type**: [Buy Limit / Sell Limit] at [Price] (e.g., "Wait for retest of OB")
+*   **Stop Loss**: [Price]
+*   **Take Profit**: [Price]
+*   **Reason**: [Why wait? e.g., "Better R:R at the 15m FVG"]
+
+### 💰 Risk Management (Strict)
 *   **Stop Loss Distance**: [Pips/Points]
-*   **Recommended Lot Size**: [Suggest lot size for a $100 account risking $2-$3 (2-3%)]
-    *   *Example: "0.01 lots per $100 equity"*
+*   **Risk Amount**: [Calculate $ amount based on user's Account Size & Risk %]
+*   **Recommended Lot Size**: [Calculate exact lots] (Formula: Risk Amount / (SL Distance * Pip Value))
+*   **Risk:Reward**: [Must be > 1:2. If not, mark as NO TRADE]
 
 ### 🧠 SMC Reasoning (Brief)
 *   [One sentence on why: e.g., "Retest of 15m Order Block + Liquidity Sweep"]
