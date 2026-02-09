@@ -102,10 +102,35 @@ def analyze_chart_anthropic(api_key, image, user_context=""):
 
 def analyze_chart_gemini(api_key, image, user_context=""):
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel('gemini-1.5-pro')
     
-    response = model.generate_content([
-        f"{SYSTEM_PROMPT}\n\nUser Context: {user_context}", 
-        image
-    ])
-    return response.text
+    # Use Gemini 3 (Preview) as requested
+    try:
+        model = genai.GenerativeModel('gemini-3-pro-preview')
+        response = model.generate_content([
+            f"{SYSTEM_PROMPT}\n\nUser Context: {user_context}", 
+            image
+        ])
+        return response.text
+    except Exception as e:
+        # Fallback to Flash if Pro fails
+        try:
+             model = genai.GenerativeModel('gemini-3-flash-preview')
+             response = model.generate_content([
+                f"{SYSTEM_PROMPT}\n\nUser Context: {user_context}", 
+                image
+            ])
+             return response.text
+        except:
+             # If both fail, list models
+            try:
+                available_models = [m.name for m in genai.list_models()]
+                return f"Error: {str(e)}\n\nAvailable models: {available_models}"
+            except:
+                raise e
+    except Exception as e:
+        # If Flash fails, try to look for available models to give a better error
+        try:
+            available_models = [m.name for m in genai.list_models()]
+            return f"Error: {str(e)}\n\nAvailable models: {available_models}"
+        except:
+            raise e
