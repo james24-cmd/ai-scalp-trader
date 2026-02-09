@@ -50,6 +50,8 @@ with col1:
     st.subheader("1. Upload Chart")
     uploaded_file = st.file_uploader("Choose an image...", type=['png', 'jpg', 'jpeg'])
     
+    timeframe = st.selectbox("Select Timeframe", ["1m", "5m", "15m", "1h", "4h", "Daily"])
+    
     user_context = st.text_area("Additional Context (Optional)", 
                                 placeholder="E.g., 'Looking for a LONG on the 5m timeframe, price just tapped a demand zone.'")
 
@@ -74,11 +76,11 @@ with col2:
                 analysis_result = ""
                 
                 if api_provider == "OpenAI":
-                    analysis_result = analyze_chart_openai(api_key, image, user_context)
+                    analysis_result = analyze_chart_openai(api_key, image, f"Timeframe: {timeframe}. {user_context}")
                 elif api_provider == "Anthropic":
-                    analysis_result = analyze_chart_anthropic(api_key, image, user_context)
+                    analysis_result = analyze_chart_anthropic(api_key, image, f"Timeframe: {timeframe}. {user_context}")
                 elif api_provider == "Google Gemini":
-                    analysis_result = analyze_chart_gemini(api_key, image, user_context)
+                    analysis_result = analyze_chart_gemini(api_key, image, f"Timeframe: {timeframe}. {user_context}")
                 
                 st.success("Analysis Complete!")
                 st.markdown(analysis_result)
